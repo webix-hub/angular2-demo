@@ -1,0 +1,38 @@
+html, body {
+	font-family: Arial;
+}
+
+nav a {
+	display: inline-block;
+	width: 150px;
+	text-decoration: none;
+	color: blue;
+	padding: 5px; 
+	margin: 5px; 
+	text-align: center;
+}
+
+nav a.active{
+	background: #aad;
+	color: black;
+}
+
+.formbox input{
+	width:200px; padding: 5px;
+}
+.formbox button{
+	width:100px; padding: 5px;
+}
+
+.pagebox{
+	width:100%;
+	height: 500px;
+	display: block;
+}
+rows, columns{
+	width:100%; height:100%;
+	display: block;
+}
+cell{
+	display:none;
+}
