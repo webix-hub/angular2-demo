@@ -1,5 +1,5 @@
 {
-  "name": "angular-quickstart",
+  "name": "angular-webix-quickstart",
   "version": "1.0.0",
   "scripts": {
     "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
