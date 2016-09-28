@@ -5,7 +5,7 @@ Webix for Angular 2
 
 ## How to run this demo
 
-After cloning the repo run
+After cloning the repo, run the following commands:
 
 ```
 npm install
@@ -15,26 +15,26 @@ nmp run start
 
 ## Basics of usage
 
-There is no any special tricks for using Webix with Angular JS.
+There aren't any special tricks for using Webix with Angular JS.
 
-This project differs from default Angular 2 quickstart only in two ways
+This project differs from default Angular 2 quickstart only in two ways:
 
-a) index.html contains references to webix files
+a) *index.html* contains references to Webix files
 
 ```html
     <script src="//cdn.webix.com/edge/webix.js"></script>
     <link rel="stylesheet" href="//cdn.webix.com/edge/webix.css">
 ```
 
-b) typings.json has webix typings added
+b) *typings.json* has Webix typings added
 
 ```
     npm run typings install df~webix --save --global
 ```
 
-### Webix based components
+### Webix-based components
 
-When you need to create a webix based view, just create a normal Angular 2 component, with webix.ui call inside.
+When you need to create a Webix-based view, just create a normal Angular 2 component with `webix.ui` call inside.
 
 ```js
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
@@ -62,19 +62,19 @@ export class DataTableComponent implements OnDestroy, OnInit {
 }
 ```
 
-webix.ui call, inside of class constructor, inits the Webix view. You can use any webix component and options here. A single Angular component can host a single Webix component or a layout with multiple Webix components. 
+`webix.ui` call inside of a class constructor initializes a Webix view. You can use any Webix component and options here. A single Angular component can host a single Webix component or a layout with multiple Webix components. 
 
-ngOnInit handler is used to resize component to the parent contains size ( it is not necessary if you are using fixed sizes in the webix.ui config ) 
+`ngOnInit` handler is used to resize a component to the parent container size (it is not necessary if you use fixed sizes in the `webix.ui` config) 
 
-ngOnDestroy is used to clean the memory after the view is disposed of.
+`ngOnDestroy` is used to clean the memory after the view is disposed of.
 
 
 ### Loading data into Webix component
 
-Webix component can load data directly from the server side. So, the component can work without data providers infrastructure. 
+Webix component can load data directly from the server side. So, the component can work without data providers' infrastructure. 
 
-If necessary, same as for normal Angular components, you can use @Input attributes or data services to provide a data for the component. 
-In both cases, the data must be set through "data" property of the component. Such way of data setting support both raw data objects and promises of data objects
+If necessary, you can use `@Input` attributes or data services to provide a data for the component, the same as for normal Angular components.
+In both cases, the data must be set through the "data" property of the component. This way of data setting supports both raw data objects and promises of data objects.
 
 **app/services/film.ts**
 ```js
@@ -96,9 +96,9 @@ export class FilmService {
     }
 ```
 
-### Calling API of webix components
+### Calling API of Webix components
 
-You can add a public method to the component, which will call any necessary public method by using this.ui as reference to the Webix object
+You can add a public method to the component to call any necessary public method by using `this.ui` as a reference to the Webix object:
 
 **app/components/datatable.js**
 ```js
@@ -107,9 +107,9 @@ You can add a public method to the component, which will call any necessary publ
     }
 ```
 
-### Handling webix events
+### Handling Webix events
 
-You can expose events of Webix component through the @Output property
+You can expose events of Webix component through the `@Output` property:
 
 **app/components/datatable.js**
 ```js
@@ -128,9 +128,10 @@ export class DataTableComponent implements OnDestroy, OnInit {
     }
  ```   
 
-The above code registers a public "onRowSelect" event for the datatable component, which will fire each time as row selected in the Webix component. 
+The above code registers a public event "onRowSelect" for the DataTable component.
+This event will fire each time when a row is selected in the Webix component. 
 
-You can handle it in the parent component like next
+You can handle it in the parent component like this:
 
 ```js
 @Component({
@@ -155,13 +156,14 @@ export class HTMLLayoutComponent {
 
 ```
 
-Here, parent component subscribes to the onRowSelect event and shows the selected record info, when it is available. 
+Here the parent component subscribes to the `onRowSelect` event and shows the selected record info when it is available. 
 
-A similar approach can be used to map any other event through a @Output properties.
+A similar approach can be used to map any other event through `@Output` properties.
 
 ### Webix layouts
 
-The recommended approach is to host all webix layout based components in a single angular component 
+There are two ways of using Webix layouts with Angular 2.
+The recommended approach is to host all Webix layout-based components in a single Angular component: 
 
 ```js
 export class MyLayoutComponent implements OnDestroy, OnInit {
@@ -180,10 +182,15 @@ export class MyLayoutComponent implements OnDestroy, OnInit {
     }
 ```
 
-While it is tempting to define layouts directly as part of template property, there are some problems with such approach. 
-Webix Layouts are using fixed size concept, which is not compatible with the Angular way of UI building. So while you can use Webix layouts, they will behave differently from normal Angular components ( most notable, you will not be able to use ngIf to hide|show part of layout )
+The second approach presupposes defining layouts directly as a part of the `template` property.
+It is a rather tempting way, but it can cause problems, since Webix Layouts use fixed-size concept which is not compatible with the Angular way of UI building. So while you can use Webix layouts, they will behave differently from normal Angular components (the most notable thing is that you won't be able to use ngIf to hide/show a part of layout).
 
-With above disclaimer in mind, you can check app/components/layout.ts. This file provides a three layout components, which still allows using webix layout from an Angular template. 
+With the above disclaimer in mind, you can still try to use Webix Layout from an Angular template. There are three layout components
+provided in the *app/components/layout.ts* directory:
+
+- *rows* - create a row layout
+- *columns* - create a column layout
+- *cell* - wraps a single cell of a layout
 
 ```html
 <rows type="space" class="pagebox">
@@ -197,19 +204,15 @@ With above disclaimer in mind, you can check app/components/layout.ts. This file
 </rows>
 ```
 
-- rows - create a row layout
-- columns - create a column layout
-- cell - wraps a single cell of a layout
+`rows` and `cols` tags support *type*, *padding* and *margin* attributes (similar to Webix layouts)
 
-rows and cols tags support type, padding and margin attributes ( similar to webix layouts )
-
-cell tag supports width, height, minWidht, minHeight, maxWidth, maxHeight, gravity attributes, similar to the webix sizing attributes. 
+The `cell` tag supports *width*,*height*, *minWidht*, *minHeight*, *maxWidth*, *maxHeight* and *gravity* attributes similar to the Webix sizing attributes. 
 
 
 ### Routing
 
-There is no way to define routerLink attributes inside of Webix UI.
-You need to use onItemClick event of component if you need to route to a different view
+There is no way to define *routerLink* attributes inside of Webix UI.
+You need to use the `onItemClick` event of a component, if you need to route to a different view:
 
 ```js
     this.ui = <webix.ui.menu>webix.ui({
