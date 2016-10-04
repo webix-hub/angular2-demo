@@ -206,7 +206,7 @@ provided in the *app/components/layout.ts* directory:
 
 `rows` and `cols` tags support *type*, *padding* and *margin* attributes (similar to Webix layouts)
 
-The `cell` tag supports *width*,*height*, *minWidht*, *minHeight*, *maxWidth*, *maxHeight* and *gravity* attributes similar to the Webix sizing attributes. 
+The `cell` tag supports *width*,*height*, *minWidth*, *minHeight*, *maxWidth*, *maxHeight* and *gravity* attributes similar to the Webix sizing attributes. 
 
 
 ### Routing
