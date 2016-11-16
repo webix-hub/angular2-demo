@@ -10,7 +10,7 @@ After cloning the repo, run the following commands:
 ```
 npm install
 npm run typings install
-nmp run start
+npm run start
 ```
 
 ## Basics of usage
