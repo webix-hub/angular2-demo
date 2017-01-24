@@ -9,7 +9,6 @@ After cloning the repo, run the following commands:
 
 ```
 npm install
-npm run typings install
 npm run start
 ```
 
