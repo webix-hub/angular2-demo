@@ -36,3 +36,8 @@ rows, columns{
 cell{
 	display:none;
 }
+.webix_template > cell{
+	display: block;
+	height:auto;
+	width:auto;
+}

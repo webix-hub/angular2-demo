@@ -6,6 +6,7 @@ import { AppComponent }   from './components/app';
 import { FormToolbarComponent }   from './components/form-toolbar';
 import { HTMLLayoutComponent }   from './components/html-layout';
 import { WebixLayoutComponent }   from './components/webix-layout';
+import { TemplateRoutingComponent } from './components/template-routing';
 
 import { routing, appRoutingProviders }  from './app.routing';
 
@@ -28,7 +29,8 @@ import { ColumnsComponent, RowsComponent, CellComponent } from './components/lay
 
     FormToolbarComponent,
     HTMLLayoutComponent,
-    WebixLayoutComponent
+    WebixLayoutComponent,
+    TemplateRoutingComponent
   ],
   providers:[
     appRoutingProviders

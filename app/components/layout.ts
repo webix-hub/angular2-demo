@@ -69,6 +69,7 @@ export class RowsComponent  extends ColumnsComponent {
 })
 export class CellComponent{
     private root: ElementRef;
+    @Input() content: string;
     @Input() height: number;
     @Input() width: number;
     @Input() minHeight: number;
@@ -85,7 +86,7 @@ export class CellComponent{
         var view = this.root.nativeElement.querySelector("[view_id]");
         var result, config;
         if (!view)
-            result = config = { view:"template", template: this.root.nativeElement.innerHTML };
+            result = config = { view:"template", content: this.content || this.root.nativeElement };
         else {
             result =  webix.$$(view.getAttribute("view_id"));
             config = result.config;
