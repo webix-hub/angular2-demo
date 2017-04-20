@@ -6,10 +6,10 @@ import { Film } from "../models/film";
   selector: 'template-routing',
   template: `
             <columns>
-              <cell width="320"> 
+              <cell width="320" height="600"> 
                 <nav>
                   <a [routerLink]="['/template-routing', { outlets: { sub: 'area1' } }]"     routerLinkActive="active">Area 1</a>
-                  <a [routerLink]="['/template-routing', { outlets: { sub: 'area2' } }]"     routerLinkActive="active">Area</a>
+                  <a [routerLink]="['/template-routing', { outlets: { sub: 'area2' } }]"     routerLinkActive="active">Area 2</a>
                 </nav>
               </cell>
               <cell> 

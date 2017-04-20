@@ -2,7 +2,7 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 
-import { AppComponent }   from './components/app';
+import { AppComponent }   from './app.component';
 import { FormToolbarComponent }   from './components/form-toolbar';
 import { HTMLLayoutComponent }   from './components/html-layout';
 import { WebixLayoutComponent }   from './components/webix-layout';
