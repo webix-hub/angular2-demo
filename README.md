@@ -232,6 +232,24 @@ You need to use the `onItemClick` event of a component, if you need to route to 
 
 - Webix Layouts are not compatible with ngIf and any other DOM mutation directives
 
+### Angular CLI
+
+If you are creating a project with help of Angular CLI tool, be sure to add webix into src/tsconfig.app.json
+
+```json
+
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "module": "es2015",
+    "baseUrl": "",
+    "types": [ "webix" ]
+  },
+```
+
+You can check the [Angular CLI](https://github.com/webix-hub/angular2-demo/tree/angular-cli) branch of this repo, which contains the same demo app created with CLI tool. 
+
 ## License
 
 The MIT License (MIT)    
