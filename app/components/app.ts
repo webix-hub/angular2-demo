@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   template: `<nav>
                <a routerLink="/html-layout"			routerLinkActive="active">HTML Layout</a>
                <a routerLink="/webix-layout"		routerLinkActive="active">Webix Layout</a>
+               <a routerLink="/data-loading"		routerLinkActive="active">Data Loading</a>
                <a routerLink="/form-grid"			routerLinkActive="active">Form and Grid</a>
                <a routerLink="/template-routing"	routerLinkActive="active">Routing in Layout</a>
              </nav>
