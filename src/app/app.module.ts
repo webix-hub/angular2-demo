@@ -1,11 +1,13 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent }   from './app.component';
 import { FormToolbarComponent }   from './components/form-toolbar';
 import { HTMLLayoutComponent }   from './components/html-layout';
 import { WebixLayoutComponent }   from './components/webix-layout';
+import { DataLoadingComponent }   from './components/data-loading';
 import { TemplateRoutingComponent } from './components/template-routing';
 
 import { routing, appRoutingProviders }  from './app.routing';
@@ -17,7 +19,7 @@ import { ColumnsComponent, RowsComponent, CellComponent } from './components/lay
 
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule, routing ],
+  imports:      [ BrowserModule, FormsModule, HttpModule, routing ],
   declarations: [ 
     AppComponent,
     SideBarComponent,
@@ -30,6 +32,7 @@ import { ColumnsComponent, RowsComponent, CellComponent } from './components/lay
     FormToolbarComponent,
     HTMLLayoutComponent,
     WebixLayoutComponent,
+    DataLoadingComponent,
     TemplateRoutingComponent
   ],
   providers:[
