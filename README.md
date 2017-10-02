@@ -1,7 +1,9 @@
-Webix for Angular 2
+Webix for Angular (Angular 2 and above)
 ===================
 
 [![Join the chat at https://gitter.im/webix-hub/webix](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/webix-hub/webix) 
+
+If you are looking for the **Angular JS** adapter for Webix UI, check the [related repository](https://github.com/webix-hub/webix-angular).
 
 ## How to run this demo
 
@@ -14,9 +16,9 @@ npm run start
 
 ## Basics of usage
 
-There aren't any special tricks for using Webix with Angular JS.
+There aren't any special tricks for using Webix with Angular.
 
-This project differs from default Angular 2 quickstart only in two ways:
+This project differs from default Angular quickstart only in two ways:
 
 a) *index.html* contains references to Webix files
 
@@ -33,7 +35,7 @@ b) *typings.json* has Webix typings added
 
 ### Webix-based components
 
-When you need to create a Webix-based view, just create a normal Angular 2 component with `webix.ui` call inside.
+When you need to create a Webix-based view, just create a normal Angular component with `webix.ui` call inside.
 
 ```js
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
@@ -161,7 +163,7 @@ A similar approach can be used to map any other event through `@Output` properti
 
 ### Webix layouts
 
-There are two ways of using Webix layouts with Angular 2.
+There are two ways of using Webix layouts with Angular.
 The recommended approach is to host all Webix layout-based components in a single Angular component: 
 
 ```js
