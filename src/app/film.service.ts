@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Film } from '../models/film';
+import { Film } from "./film";
 
 const FILMS: Film[] = [
 	{ id:1, title:"The Shawshank Redemption", year:1994, votes:678790, rating:9.2, rank:1, category:"Thriller"},

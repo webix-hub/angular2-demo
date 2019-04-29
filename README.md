@@ -1,7 +1,5 @@
-Webix for Angular (Angular 2 and above)
+Webix for Angular (Angular 7 and above)
 ===================
-
-[![Join the chat at https://gitter.im/webix-hub/webix](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/webix-hub/webix) 
 
 If you are looking for the **Angular JS** adapter for Webix UI, check the [related repository](https://github.com/webix-hub/webix-angular).
 
@@ -18,19 +16,11 @@ npm run start
 
 There aren't any special tricks for using Webix with Angular.
 
-This project differs from default Angular quickstart only in two ways:
-
-a) *index.html* contains references to Webix files
+*index.html* contains references to Webix files
 
 ```html
     <script src="//cdn.webix.com/edge/webix.js"></script>
     <link rel="stylesheet" href="//cdn.webix.com/edge/webix.css">
-```
-
-b) *typings.json* has Webix typings added
-
-```
-    npm run typings install df~webix --save --global
 ```
 
 ### Webix-based components
@@ -236,26 +226,19 @@ You need to use the `onItemClick` event of a component, if you need to route to 
 
 ### Angular CLI
 
-If you are creating a project with help of Angular CLI tool, be sure to add webix into src/tsconfig.app.json
+If you are creating a new project, be sure to add webix typings into src/tsconfig.app.json
 
 ```json
-
-{
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../out-tsc/app",
-    "module": "es2015",
-    "baseUrl": "",
-    "types": [ "webix" ]
-  },
+  "include": [
+    "src/**/*.ts",
+    "./node_modules/webix/types/webix.global.d.ts"
+  ]
 ```
-
-You can check the [Angular CLI](https://github.com/webix-hub/angular2-demo/tree/angular-cli) branch of this repo, which contains the same demo app created with CLI tool. 
 
 ## License
 
 The MIT License (MIT)    
-Copyright (c) 2016 XBSoftware
+Copyright (c) 2019 XBSoftware
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { DataTableComponent } from "./datatable";
-import { Film } from "../models/film";
+import { DataTableComponent } from "./datatable.component";
+import { Film } from "../film";
 
 @Component({
   selector: 'form-toolbar',

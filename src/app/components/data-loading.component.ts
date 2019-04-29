@@ -1,7 +1,7 @@
 import { Component, Input, ElementRef, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
-import { FilmService } from '../services/film';
-import { RemoteDataService } from '../services/remotedata';
-import { Film } from '../models/film';
+import { FilmService } from '../film.service';
+import { RemoteDataService } from '../remote.service';
+import { Film } from '../film';
 
 @Component({
   selector: 'data-loading',

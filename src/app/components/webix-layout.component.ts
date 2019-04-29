@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { ToolbarComponent } from "./toolbar";
-import { DataTableComponent } from "./datatable";
+import { ToolbarComponent } from "./toolbar.component";
+import { DataTableComponent } from "./datatable.component";
 
 @Component({
   selector: 'webix-layout',

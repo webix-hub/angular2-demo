@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Film } from "../models/film"
+import { Film } from "../film"
 
 @Component({
   selector: 'html-layout',

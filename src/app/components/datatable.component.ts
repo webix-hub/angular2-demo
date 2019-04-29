@@ -1,6 +1,6 @@
 import { Component, Input, ElementRef, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
-import { FilmService } from '../services/film';
-import { Film } from '../models/film';
+import { FilmService } from '../film.service';
+import { Film } from '../film';
 
 @Component({
   selector: 'datatable',

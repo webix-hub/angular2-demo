@@ -1,5 +1,5 @@
 import { Component, Input, ElementRef, OnDestroy, OnInit, EventEmitter, Output } from '@angular/core';
-import { FilmService } from '../services/film';
+import { FilmService } from '../film.service';
 
 @Component({
   selector: 'toolbar',
