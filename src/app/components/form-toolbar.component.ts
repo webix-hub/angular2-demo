@@ -13,7 +13,7 @@ import { Film } from "../film";
             <datatable (onRowSelect)="fillInfo($event)" class='pagebox'></datatable>`
 })
 export class FormToolbarComponent {
-  @ViewChild(DataTableComponent) grid: DataTableComponent;
+  @ViewChild(DataTableComponent, {static: false}) grid: DataTableComponent;
   private selectedFilm: Film;
 
   fillInfo(film : Film){

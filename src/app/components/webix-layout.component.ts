@@ -16,7 +16,7 @@ import { DataTableComponent } from "./datatable.component";
             `
 })
 export class WebixLayoutComponent {
-  @ViewChild(DataTableComponent) grid: DataTableComponent;
+  @ViewChild(DataTableComponent, {static: false}) grid: DataTableComponent;
   buttonClick(id: string){
     if (id === "add")
       this.grid.addRow();
