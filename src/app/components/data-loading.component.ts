@@ -25,7 +25,7 @@ export class DataLoadingComponent implements OnDestroy, OnInit {
               type:"header", template:"Loading data with Webix",
             },{
               view:"datatable", autoConfig:true, autoheight:true, autowidth:true,
-              url: "https://api.myjson.com/bins/12aesl"
+              url: "https://api.jsonbin.io/b/5ea6df0b98b3d537523566e7"
             }]
         })
     }
