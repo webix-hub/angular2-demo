@@ -1,29 +1,29 @@
-import { Component, Input, ElementRef, OnDestroy, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, EventEmitter, Output } from '@angular/core';
 import { FilmService } from '../film.service';
 
 @Component({
   selector: 'toolbar',
-  template:"",
+  template:'',
   providers: [FilmService]
 })
 export class ToolbarComponent implements OnDestroy, OnInit {
-  private ui : webix.ui.toolbar;
-  @Output() onButton = new EventEmitter<string>();
+  private ui: webix.ui.toolbar;
+  @Output() button = new EventEmitter<string>();
 
   constructor(private films: FilmService, root: ElementRef) {
-        this.ui = <webix.ui.toolbar> webix.ui({
+        this.ui = webix.ui({
             container: root.nativeElement,
-            view:"toolbar", 
+            view:'toolbar',
             elements:[
-              { view:"button", value:"Add Row", width:150,  click: () => this.onButton.emit("add") }
+              { view:'button', value:'Add Row', width:150,  click: (): void => this.button.emit('add') }
             ]
-        })
+        }) as webix.ui.toolbar
     }
-    
-    ngOnInit(){
+
+    ngOnInit(): void{
       this.ui.resize();
     }
-    ngOnDestroy(){
+    ngOnDestroy(): void{
       this.ui.destructor();
     }
 }

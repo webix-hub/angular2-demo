@@ -1,46 +1,56 @@
-import { Component, Input, ElementRef, AfterContentInit , ContentChildren, QueryList, forwardRef, OnInit } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  ContentChildren,
+  ElementRef,
+  forwardRef,
+  Input,
+  OnInit,
+  QueryList
+} from '@angular/core';
 
 @Component({
   selector: 'columns',
-  template:"<ng-content></ng-content>"
+  template:'<ng-content></ng-content>'
 })
-export class ColumnsComponent implements AfterContentInit  {
-    private ui : webix.ui.layout;
+export class ColumnsComponent implements AfterContentInit, OnInit  {
+    private ui: webix.ui.layout;
     private root: ElementRef;
 
     @Input() type: string;
     @Input() padding: number;
     @Input() margin: number;
 
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     @ContentChildren(forwardRef(() => CellComponent)) cells: QueryList<CellComponent>;
 
     constructor(root: ElementRef) {
         this.root = root;
     }
 
-    getBaseConfig() : any {
+    getBaseConfig(): any {
         return {
-            view:"layout",
-            cols:[] 
+            view:'layout',
+            cols:[]
         };
     }
 
-    ngOnInit() : void{
-        let config:any = this.getBaseConfig();
+    ngOnInit(): void{
+        const config: any = this.getBaseConfig();
         config.container = this.root.nativeElement;
 
         if (this.padding)
-            config.padding = this.padding*1;
+            config.padding = +this.padding;
         if (this.margin)
-            config.margin = this.margin*1;
+            config.margin = +this.margin;
         if (this.type)
             config.type = this.type;
 
-        this.ui = <webix.ui.layout> webix.ui(config);
+        this.ui = webix.ui(config) as webix.ui.layout;
     }
 
 
-    ngAfterContentInit() {
+    ngAfterContentInit(): void {
         this.cells.forEach((item) => this.ui.addView( item.getView() ) )
         this.ui.resize();
     }
@@ -48,24 +58,24 @@ export class ColumnsComponent implements AfterContentInit  {
 
 @Component({
   selector: 'rows',
-  template:"<ng-content></ng-content>"
+  template:'<ng-content></ng-content>'
 })
 export class RowsComponent  extends ColumnsComponent {
     constructor(root: ElementRef) {
         super(root);
     }
 
-    getBaseConfig() : any {
+    getBaseConfig(): any {
         return {
-            view:"layout",
-            rows:[] 
+            view:'layout',
+            rows:[]
         };
     }
 }
 
 @Component({
   selector: 'cell',
-  template:"<ng-content></ng-content>"
+  template:'<ng-content></ng-content>'
 })
 export class CellComponent{
     private root: ElementRef;
@@ -82,30 +92,31 @@ export class CellComponent{
          this.root = root;
     }
 
-    getView() : any {
-        var view = this.root.nativeElement.querySelector("[view_id]");
-        var result, config;
+    getView(): any {
+        const view = this.root.nativeElement.querySelector('[view_id]');
+        let result;
+        let config;
         if (!view)
-            result = config = { view:"template", content: this.content || this.root.nativeElement };
+            result = config = { view:'template', content: this.content || this.root.nativeElement };
         else {
-            result =  webix.$$(view.getAttribute("view_id"));
+            result =  webix.$$(view.getAttribute('view_id'));
             config = result.config;
         }
 
         if (this.width)
-            config.width = this.width*1;
+            config.width = +this.width;
         if (this.height)
-            config.height = this.height*1;
+            config.height = +this.height;
         if (this.minHeight)
-            config.minHeight = this.minHeight*1;
+            config.minHeight = +this.minHeight;
         if (this.minWidth)
-            config.minWidth = this.minWidth*1;
+            config.minWidth = +this.minWidth;
         if (this.maxHeight)
-            config.maxHeight = this.maxHeight*1;
+            config.maxHeight = +this.maxHeight;
         if (this.maxWidth)
-            config.maxWidth = this.maxWidth*1;
+            config.maxWidth = +this.maxWidth;
         if (this.gravity)
-            config.gravity = this.gravity*1;
+            config.gravity = +this.gravity;
 
         return result;
     }

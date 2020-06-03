@@ -13,8 +13,8 @@ const routes: Routes = [
   { path: 'html-layout', component: HTMLLayoutComponent },
   { path: 'form-grid', component: FormToolbarComponent },
   { path: 'template-routing', component: TemplateRoutingComponent, children: [
-    { path: 'area1', component: WebixLayoutComponent, outlet:"sub" },
-    { path: 'area2',  component: HTMLLayoutComponent, outlet:"sub" }
+    { path: 'area1', component: WebixLayoutComponent, outlet:'sub' },
+    { path: 'area2',  component: HTMLLayoutComponent, outlet:'sub' }
   ]},
   { path: '', component: HTMLLayoutComponent }
 ];
