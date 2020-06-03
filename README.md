@@ -32,22 +32,22 @@ import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'datatable',
-  template:""
+  template:''
 })
 export class DataTableComponent implements OnDestroy, OnInit {
-  private ui : webix.ui.datatable;
+  private ui: webix.ui.datatable;
   
   constructor(root: ElementRef) {
-        this.ui = <webix.ui.datatable> webix.ui({
-            container: root.nativeElement
+        this.ui = webix.ui({
+            container: root.nativeElement,
             view:"datatable", autoConfig:true, url:"data.php"
-        })
+        }) as webix.ui.datatable
     }
     
-    ngOnInit(){
+    ngOnInit(): void {
       this.ui.resize();
     }
-    ngOnDestroy(){
+    ngOnDestroy(): void {
       this.ui.destructor();
     }
 }
@@ -80,10 +80,10 @@ export class FilmService {
 **app/components/datatable.ts**
 ```js
   constructor(private films: FilmService, root: ElementRef) {
-        this.ui = <webix.ui.datatable> webix.ui({
+        this.ui = webix.ui({
             container: root.nativeElement,
             view:"datatable", autoConfig:true, data: this.films.getFilms()
-        })
+        }) as webix.ui.datatable
     }
 ```
 
@@ -93,7 +93,7 @@ You can add a public method to the component to call any necessary public method
 
 **app/components/datatable.js**
 ```js
-    addRow(){
+    addRow(): void{
       this.ui.add({ title:"New row" });
     }
 ```
@@ -105,17 +105,17 @@ You can expose events of Webix component through the `@Output` property:
 **app/components/datatable.js**
 ```js
 export class DataTableComponent implements OnDestroy, OnInit {
+  @Output() rowSelected = new EventEmitter<Film>();
   private ui : webix.ui.datatable;
-  @Output() onRowSelect = new EventEmitter<Film>();
 
   constructor(private films: FilmService, root: ElementRef) {
-        this.ui = <webix.ui.datatable> webix.ui({
+        this.ui = webix.ui({
             container: root.nativeElement,
             view:"datatable", autoConfig:true, data: this.films.getFilms(),
             on:{
-              onAfterSelect: (id) => this.onRowSelect.emit(this.ui.getItem(id))
+              onAfterSelect: (id) => this.rowSelected.emit(this.ui.getItem(id))
             }
-        })
+        }) as webix.ui.datatable
     }
  ```   
 
@@ -140,7 +140,7 @@ You can handle it in the parent component like this:
 })
 export class HTMLLayoutComponent {
   private selectedFilm: Film;
-  fillInfo(film : Film){
+  fillInfo(film : Film): void{
     this.selectedFilm = film;
   }
 }
@@ -161,7 +161,7 @@ export class MyLayoutComponent implements OnDestroy, OnInit {
   private ui : webix.ui.datatable;
   
   constructor(private films: FilmService, root: ElementRef) {
-        this.ui = <webix.ui.layout> webix.ui({
+        this.ui = webix.ui({
             container: root.nativeElement,
             view:"layout", 
             rows:[
@@ -169,7 +169,7 @@ export class MyLayoutComponent implements OnDestroy, OnInit {
                 other,
                 { cols:[ views, here ] }
             ]
-        })
+        }) as webix.ui.layout
     }
 ```
 
@@ -206,7 +206,7 @@ There is no way to define *routerLink* attributes inside of Webix UI.
 You need to use the `onItemClick` event of a component, if you need to route to a different view:
 
 ```js
-    this.ui = <webix.ui.menu>webix.ui({
+    this.ui = webix.ui({
       container: root.nativeElement,
       view: "menu", layout: "y", minHeight: 200, select: true,
       data: [
@@ -217,7 +217,7 @@ You need to use the `onItemClick` event of a component, if you need to route to 
       on: {
         onItemClick: (id) => this.router.navigate([id])
       }
-    })
+    }) as webix.ui.menu
 ```
 
 ### Limitations

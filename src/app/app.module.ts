@@ -15,7 +15,7 @@ import { SideBarComponent } from './components/sidebar.component';
 import { DataTableComponent } from './components/datatable.component';
 import { ToolbarComponent } from './components/toolbar.component';
 import { ColumnsComponent, RowsComponent, CellComponent } from './components/layout.component';
-    
+
 
 @NgModule({
   declarations: [

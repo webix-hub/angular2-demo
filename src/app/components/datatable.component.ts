@@ -1,36 +1,36 @@
-import { Component, Input, ElementRef, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { FilmService } from '../film.service';
 import { Film } from '../film';
 
 @Component({
   selector: 'datatable',
-  template:"",
+  template:'',
   providers: [FilmService]
 })
 export class DataTableComponent implements OnDestroy, OnInit {
-  private ui : webix.ui.datatable;
-  @Output() onRowSelect = new EventEmitter<Film>();
+  @Output() rowSelected = new EventEmitter<Film>();
+  private ui: webix.ui.datatable;
 
   constructor(private films: FilmService, root: ElementRef) {
-        this.ui = <webix.ui.datatable> webix.ui({
+        this.ui = webix.ui({
             container: root.nativeElement,
-            view:"datatable", autoConfig:true, data: this.films.getFilms(),
+            view:'datatable', autoConfig:true, data: this.films.getFilms(),
             on:{
-              onAfterSelect: (id) => this.onRowSelect.emit(this.ui.getItem(id))
+              onAfterSelect: (id): void => this.rowSelected.emit(this.ui.getItem(id))
             }
-        })
+        }) as webix.ui.datatable
     }
-    
-    addRow(){
-      this.ui.add({ title:"New row" });
+
+    addRow(): void{
+      this.ui.add({ title:'New row' });
     }
-    updateFilm(film: Film){
+    updateFilm(film: Film): void{
       this.ui.updateItem(film.id, film);
     }
-    ngOnInit(){
+    ngOnInit(): void{
       this.ui.resize();
     }
-    ngOnDestroy(){
+    ngOnDestroy(): void{
       this.ui.destructor();
     }
 }
