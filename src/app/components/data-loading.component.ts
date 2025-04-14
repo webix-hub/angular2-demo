@@ -1,32 +1,37 @@
-import { Component, Input, ElementRef, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
-import { FilmService } from '../film.service';
-import { RemoteDataService } from '../remote.service';
-import { Film } from '../film';
+import { Component, ElementRef, OnDestroy, OnInit, inject } from '@angular/core';
+import { RemoteDataService } from '../services/remote.service';
 
 @Component({
-  selector: 'data-loading',
-  template:"",
-  providers: [FilmService, RemoteDataService]
+    selector: 'webix-data-loading',
+    template: '',
+    providers: [RemoteDataService]
 })
-
 export class DataLoadingComponent implements OnDestroy, OnInit {
-  private ui : webix.ui.baseview;
+  private ui: webix.ui.baseview;
+  private remote = inject(RemoteDataService);
+  private root = inject(ElementRef);
 
-  constructor(private films: FilmService, private remote: RemoteDataService, root: ElementRef) {
+  constructor(){
         this.ui = webix.ui({
-            container: root.nativeElement,
-            type:"wide",
-            rows:[{
-              type:"header", template:"Loading data with Angular HTTP",
-            },{
-              view:"datatable", autoConfig:true, autoheight:true, autowidth:true,
-              data: remote.getFilms()
-            },{ height: 50 },{
-              type:"header", template:"Loading data with Webix",
-            },{
-              view:"datatable", autoConfig:true, autoheight:true, autowidth:true,
-              url: "https://api.jsonbin.io/b/5ea6df0b98b3d537523566e7"
-            }]
+            container: this.root.nativeElement,
+            type:'wide',
+            rows:[
+              {
+                type:'header', template:'Loading data with Angular HTTP',
+              },
+              {
+                view:'datatable', autoConfig:true, autowidth:true, yCount:5,
+                data: this.remote.getFilms()
+              },
+              { height: 50 },
+              {
+                type:'header', template:'Loading data with Webix',
+              },
+              {
+                view:'datatable', autoConfig:true, autowidth:true, yCount:5,
+                url: 'https://docs.webix.com/samples/server/films'
+              }
+            ]
         })
     }
     ngOnInit(){

@@ -1,24 +1,28 @@
-import { Component, ViewChild } from '@angular/core';
-import { ToolbarComponent } from "./toolbar.component";
-import { DataTableComponent } from "./datatable.component";
+import { Component, viewChild } from '@angular/core';
+import { DataTableComponent } from './datatable.component';
+import { RowsComponent, CellComponent, ColumnsComponent } from './layout.component';
+import { ToolbarComponent } from './toolbar.component';
+import { SideBarComponent } from './sidebar.component';
 
 @Component({
-  selector: 'webix-layout',
-  template: `<rows type="space" class="pagebox">
-              <cell><toolbar (onButton)="buttonClick($event)">></toolbar></cell>
-              <cell>
-                <columns type="wide">
-                  <cell width="300"><sidebar></sidebar></cell>
-                  <cell><datatable></datatable></cell>
-                </columns>
-              </cell>
-            </rows>
-            `
+    selector: 'webix-layout',
+    template: `<webix-rows type="space" class="pagebox">
+              <webix-cell><webix-toolbar (buttonClick)="handleButtonClick($event)"></webix-toolbar></webix-cell>
+              <webix-cell>
+                <webix-columns type="wide">
+                  <webix-cell width="300"><webix-sidebar></webix-sidebar></webix-cell>
+                  <webix-cell><webix-datatable></webix-datatable></webix-cell>
+                </webix-columns>
+              </webix-cell>
+            </webix-rows>
+            `,
+    imports: [RowsComponent, CellComponent, ToolbarComponent, ColumnsComponent, SideBarComponent, DataTableComponent]
 })
 export class WebixLayoutComponent {
-  @ViewChild(DataTableComponent, {static: false}) grid: DataTableComponent;
-  buttonClick(id: string){
-    if (id === "add")
-      this.grid.addRow();
+  grid = viewChild.required<DataTableComponent>(DataTableComponent);
+
+  handleButtonClick(id: string){
+    if (id === 'add')
+      this.grid().addRow();
   }
 }

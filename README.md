@@ -1,4 +1,4 @@
-Webix for Angular (Angular 7 and above)
+Webix for Angular (Angular 19 and above)
 ===================
 
 If you are looking for the **Angular JS** adapter for Webix UI, check the [related repository](https://github.com/webix-hub/webix-angular).
@@ -16,34 +16,30 @@ npm run start
 
 There aren't any special tricks for using Webix with Angular.
 
-*index.html* contains references to Webix files
-
-```html
-    <script src="//cdn.webix.com/edge/webix.js"></script>
-    <link rel="stylesheet" href="//cdn.webix.com/edge/webix.css">
-```
+Webix files are included via the [scripts and styles](https://angular.dev/reference/configs/workspace-config#styles-and-scripts-configuration) options in angular.json.
 
 ### Webix-based components
 
 When you need to create a Webix-based view, just create a normal Angular component with `webix.ui` call inside.
 
 ```js
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, inject } from '@angular/core';
 
 @Component({
-  selector: 'datatable',
-  template:""
+  selector: 'webix-datatable',
+  template:''
 })
 export class DataTableComponent implements OnDestroy, OnInit {
   private ui : webix.ui.datatable;
-  
-  constructor(root: ElementRef) {
+  private root = inject(ElementRef);
+
+  constructor(){
         this.ui = <webix.ui.datatable> webix.ui({
-            container: root.nativeElement
+            container: this.root.nativeElement
             view:"datatable", autoConfig:true, url:"data.php"
         })
     }
-    
+
     ngOnInit(){
       this.ui.resize();
     }
@@ -53,35 +49,37 @@ export class DataTableComponent implements OnDestroy, OnInit {
 }
 ```
 
-`webix.ui` call inside of a class constructor initializes a Webix view. You can use any Webix component and options here. A single Angular component can host a single Webix component or a layout with multiple Webix components. 
+`webix.ui` call inside of a class constructor initializes a Webix view. You can use any Webix component and options here. A single Angular component can host a single Webix component or a layout with multiple Webix components.
 
-`ngOnInit` handler is used to resize a component to the parent container size (it is not necessary if you use fixed sizes in the `webix.ui` config) 
+`ngOnInit` handler is used to resize a component to the parent container size (it is not necessary if you use fixed sizes in the `webix.ui` config)
 
 `ngOnDestroy` is used to clean the memory after the view is disposed of.
 
 
 ### Loading data into Webix component
 
-Webix component can load data directly from the server side. So, the component can work without data providers' infrastructure. 
+Webix component can load data directly from the server side. So, the component can work without data providers' infrastructure.
 
-If necessary, you can use `@Input` attributes or data services to provide a data for the component, the same as for normal Angular components.
+If necessary, you can use Angular `input` function or data services to provide a data for the component, the same as for normal Angular components.
 In both cases, the data must be set through the "data" property of the component. This way of data setting supports both raw data objects and promises of data objects.
 
-**app/services/film.ts**
+**app/services/film.service.ts**
 ```js
 @Injectable()
 export class FilmService {
     getFilms(): Promise<Film[]>{
         return Promise.resolve(FILMS);
-    } 
+    }
 }
 ```
 
 **app/components/datatable.ts**
 ```js
-  constructor(private films: FilmService, root: ElementRef) {
+  private root = inject(ElementRef);
+  private films = inject(FilmService);
+  constructor(){
         this.ui = <webix.ui.datatable> webix.ui({
-            container: root.nativeElement,
+            container: this.root.nativeElement,
             view:"datatable", autoConfig:true, data: this.films.getFilms()
         })
     }
@@ -94,41 +92,43 @@ You can add a public method to the component to call any necessary public method
 **app/components/datatable.js**
 ```js
     addRow(){
-      this.ui.add({ title:"New row" });
+      this.ui.add({ title:'New row' });
     }
 ```
 
 ### Handling Webix events
 
-You can expose events of Webix component through the `@Output` property:
+You can expose events of Webix component through the `output` property:
 
 **app/components/datatable.js**
 ```js
 export class DataTableComponent implements OnDestroy, OnInit {
   private ui : webix.ui.datatable;
-  @Output() onRowSelect = new EventEmitter<Film>();
+  private root = inject(ElementRef);
+  private films = inject(FilmService);
+  readonly rowSelect = output<Film>();
 
-  constructor(private films: FilmService, root: ElementRef) {
+  constructor(){
         this.ui = <webix.ui.datatable> webix.ui({
-            container: root.nativeElement,
+            container: this.root.nativeElement,
             view:"datatable", autoConfig:true, data: this.films.getFilms(),
             on:{
-              onAfterSelect: (id) => this.onRowSelect.emit(this.ui.getItem(id))
+              onAfterSelect: (selection) => this.rowSelect.emit(this.ui.getItem(selection.id))
             }
         })
     }
- ```   
+ ```
 
-The above code registers a public event "onRowSelect" for the DataTable component.
-This event will fire each time when a row is selected in the Webix component. 
+The above code registers a public event "rowSelect" for the DataTable component.
+This event will fire each time when a row is selected in the Webix component.
 
 You can handle it in the parent component like this:
 
 ```js
 @Component({
-  selector: 'html-layout',
+  selector: 'webix-html-layout',
   template: `<h2>Initing Webix component in separate HTML containers</h2>
-            <datatable (onRowSelect)="fillInfo($event)" class='pagebox'></datatable>
+            <webix-datatable (rowSelect)="fillInfo($event)" class='pagebox'></webix-datatable>
             <div *ngIf="selectedFilm">
               <h3> Selected Film </h3>
               <ul>
@@ -139,31 +139,33 @@ You can handle it in the parent component like this:
             `
 })
 export class HTMLLayoutComponent {
-  private selectedFilm: Film;
-  fillInfo(film : Film){
+  selectedFilm: Film;
+  fillInfo(film: Film){
     this.selectedFilm = film;
   }
 }
 
 ```
 
-Here the parent component subscribes to the `onRowSelect` event and shows the selected record info when it is available. 
+Here the parent component subscribes to the `rowSelect` event and shows the selected record info when it is available.
 
-A similar approach can be used to map any other event through `@Output` properties.
+A similar approach can be used to map any other event through `output` properties.
 
 ### Webix layouts
 
 There are two ways of using Webix layouts with Angular.
-The recommended approach is to host all Webix layout-based components in a single Angular component: 
+The recommended approach is to host all Webix layout-based components in a single Angular component:
 
 ```js
 export class MyLayoutComponent implements OnDestroy, OnInit {
   private ui : webix.ui.datatable;
-  
-  constructor(private films: FilmService, root: ElementRef) {
+  private root = inject(ElementRef);
+  private films = inject(FilmService);
+
+  constructor(){
         this.ui = <webix.ui.layout> webix.ui({
-            container: root.nativeElement,
-            view:"layout", 
+            container: this.root.nativeElement,
+            view:"layout",
             rows:[
                 some,
                 other,
@@ -179,25 +181,25 @@ It is a rather tempting way, but it can cause problems, since Webix Layouts use 
 With the above disclaimer in mind, you can still try to use Webix Layout from an Angular template. There are three layout components
 provided in the *app/components/layout.ts* directory:
 
-- *rows* - create a row layout
-- *columns* - create a column layout
-- *cell* - wraps a single cell of a layout
+- *webix-columns* - creates a column layout
+- *webix-rows* - creates a row layout
+- *webix-cell* - wraps a single cell of a layout
 
 ```html
-<rows type="space" class="pagebox">
-  <cell><toolbar (onButton)="buttonClick($event)">></toolbar></cell>
-  <cell>
-    <columns type="wide">
-      <cell width="300"><sidebar></sidebar></cell>
-      <cell><datatable></datatable></cell>
-    </columns>
-  </cell>
-</rows>
+<webix-rows type="space" class="pagebox">
+  <webix-cell><webix-toolbar (buttonClick)="handleButtonClick($event)"></webix-toolbar></webix-cell>
+  <webix-cell>
+    <webix-columns type="wide">
+      <webix-cell width="300"><webix-sidebar></webix-sidebar></webix-cell>
+      <webix-cell><webix-datatable></webix-datatable></webix-cell>
+    </webix-columns>
+  </webix-cell>
+</webix-rows>
 ```
 
-`rows` and `cols` tags support *type*, *padding* and *margin* attributes (similar to Webix layouts)
+`webix-columns` and `webix-rows` tags support *type*, *padding* and *margin* attributes (similar to Webix layouts)
 
-The `cell` tag supports *width*,*height*, *minWidth*, *minHeight*, *maxWidth*, *maxHeight* and *gravity* attributes similar to the Webix sizing attributes. 
+The `webix-cell` tag supports *width*,*height*, *minWidth*, *minHeight*, *maxWidth*, *maxHeight* and *gravity* attributes similar to the Webix sizing attributes.
 
 
 ### Routing
@@ -207,7 +209,7 @@ You need to use the `onItemClick` event of a component, if you need to route to 
 
 ```js
     this.ui = <webix.ui.menu>webix.ui({
-      container: root.nativeElement,
+      container: this.root.nativeElement,
       view: "menu", layout: "y", minHeight: 200, select: true,
       data: [
         { id: "html-layout", value: "HTML Layout" },
@@ -226,7 +228,7 @@ You need to use the `onItemClick` event of a component, if you need to route to 
 
 ### Angular CLI
 
-If you are creating a new project, be sure to add webix typings into src/tsconfig.app.json
+If you are creating a new project, be sure to add webix typings into tsconfig.json
 
 ```json
   "include": [
@@ -237,8 +239,8 @@ If you are creating a new project, be sure to add webix typings into src/tsconfi
 
 ## License
 
-The MIT License (MIT)    
-Copyright (c) 2019 XBSoftware
+The MIT License (MIT)
+Copyright (c) 2025 XBSoftware
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

@@ -1,34 +1,36 @@
-import { Component, Input, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'sidebar',
-  template: ""
+    selector: 'webix-sidebar',
+    template: ''
 })
 export class SideBarComponent implements OnDestroy, OnInit {
   private ui: webix.ui.menu;
+  private root = inject(ElementRef);
+  private router = inject(Router);
 
-  constructor(private router: Router, root: ElementRef) {
+  constructor(){
     this.ui = <webix.ui.menu>webix.ui({
-      container: root.nativeElement,
-      view: "menu", layout: "y", minHeight: 200, select: true,
+      container: this.root.nativeElement,
+      view: 'menu', layout: 'y', minHeight: 200, select: true,
       data: [
-        { id: "html-layout", value: "HTML Layout" },
-        { id: "webix-layout", value: "Webix Layout" },
-        { id: "form-grid", value: "Form and Grid" }
+        { id: 'html-layout', value: 'HTML Layout' },
+        { id: 'webix-layout', value: 'Webix Layout' },
+        { id: 'form-grid', value: 'Form and Grid' }
       ],
       on: {
-        onItemClick: (id) => this.router.navigate([id])
+        onItemClick: (id: any) => this.router.navigate([id])
       }
     })
 
-    this.ui.select("webix-layout", false);
+    this.ui.select('webix-layout', false);
   }
 
-  ngOnInit() {
+  ngOnInit(){
     this.ui.resize();
   }
-  ngOnDestroy() {
+  ngOnDestroy(){
     this.ui.destructor();
   }
 }

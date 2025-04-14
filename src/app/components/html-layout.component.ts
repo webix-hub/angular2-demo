@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { Film } from "../film"
+import { Film } from '../services/film';
+import { DataTableComponent } from './datatable.component';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'html-layout',
-  template: `<h2>Initing Webix component in separate HTML containers</h2>
-            <datatable (onRowSelect)="fillInfo($event)" class='pagebox'></datatable>
+    selector: 'webix-html-layout',
+    template: `<h2>Initing Webix component in separate HTML containers</h2>
+            <webix-datatable (rowSelect)="fillInfo($event)" class='pagebox'></webix-datatable>
             <div *ngIf="selectedFilm">
               <h3> Selected Film </h3>
               <ul>
@@ -12,10 +14,12 @@ import { Film } from "../film"
                 <li> Votes : {{selectedFilm.votes}} </li>
               </ul>
             </div>
-            `
+            `,
+    imports: [DataTableComponent, NgIf]
 })
 export class HTMLLayoutComponent {
-  private selectedFilm: Film;
+  selectedFilm: Film | null = null;
+
   fillInfo(film : Film){
     this.selectedFilm = film;
   }
