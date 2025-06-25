@@ -1,7 +1,6 @@
-export class Film {
+export interface Film {
   id: number;
   title: string;
-  category: string;
   year: number;
   rank: number;
   votes: number;

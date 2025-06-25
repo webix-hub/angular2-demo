@@ -1,111 +1,120 @@
-import { Component, Input, ElementRef, AfterContentInit , ContentChildren, QueryList, forwardRef, OnInit } from '@angular/core';
+import {
+    Component, ElementRef, AfterContentInit ,
+    contentChildren, forwardRef, numberAttribute,
+    inject, input, OnInit
+} from '@angular/core';
 
 @Component({
-  selector: 'columns',
-  template:"<ng-content></ng-content>"
+    selector: 'webix-columns',
+    template: '<ng-content></ng-content>'
 })
-export class ColumnsComponent implements AfterContentInit  {
-    private ui : webix.ui.layout;
+export class ColumnsComponent implements AfterContentInit, OnInit {
+    private ui!: webix.ui.layout;
     private root: ElementRef;
 
-    @Input() type: string;
-    @Input() padding: number;
-    @Input() margin: number;
+    type = input<string>();
+    margin = input<number, unknown>(0, { transform: numberAttribute });
+    padding = input<number, unknown>(0, { transform: numberAttribute });
 
-    @ContentChildren(forwardRef(() => CellComponent)) cells: QueryList<CellComponent>;
+    cells = contentChildren<CellComponent>(forwardRef(() => CellComponent));
 
-    constructor(root: ElementRef) {
-        this.root = root;
+    constructor(){
+        this.root = inject(ElementRef);
     }
 
-    getBaseConfig() : any {
+    getBaseConfig(): any {
         return {
-            view:"layout",
-            cols:[] 
+            view:'layout',
+            cols:[],
         };
     }
 
-    ngOnInit() : void{
-        let config:any = this.getBaseConfig();
+    ngOnInit(): void {
+        const config:any = this.getBaseConfig();
         config.container = this.root.nativeElement;
 
-        if (this.padding)
-            config.padding = this.padding*1;
-        if (this.margin)
-            config.margin = this.margin*1;
-        if (this.type)
-            config.type = this.type;
+        const type = this.type();
+        if (type)
+            config.type = type;
+        const margin = this.margin();
+        if (margin)
+            config.margin = margin;
+        const padding = this.padding();
+        if (padding)
+            config.padding = padding;
 
         this.ui = <webix.ui.layout> webix.ui(config);
     }
 
-
-    ngAfterContentInit() {
-        this.cells.forEach((item) => this.ui.addView( item.getView() ) )
+    ngAfterContentInit(){
+        this.cells().forEach((item) => this.ui.addView(item.getView()));
         this.ui.resize();
     }
 }
 
 @Component({
-  selector: 'rows',
-  template:"<ng-content></ng-content>"
+    selector: 'webix-rows',
+    template: '<ng-content></ng-content>'
 })
-export class RowsComponent  extends ColumnsComponent {
-    constructor(root: ElementRef) {
-        super(root);
-    }
-
-    getBaseConfig() : any {
+export class RowsComponent extends ColumnsComponent {
+    override getBaseConfig() : any {
         return {
-            view:"layout",
-            rows:[] 
+            view:'layout',
+            rows:[],
         };
     }
 }
 
 @Component({
-  selector: 'cell',
-  template:"<ng-content></ng-content>"
+    selector: 'webix-cell',
+    template: '<ng-content></ng-content>'
 })
-export class CellComponent{
+export class CellComponent {
     private root: ElementRef;
-    @Input() content: string;
-    @Input() height: number;
-    @Input() width: number;
-    @Input() minHeight: number;
-    @Input() minWidth: number;
-    @Input() maxHeight: number;
-    @Input() maxWidth: number;
-    @Input() gravity: number;
+    content = input<string>();
+    height = input<number, unknown>(0, { transform: numberAttribute });
+    width = input<number, unknown>(0, { transform: numberAttribute });
+    minHeight = input<number, unknown>(0, { transform: numberAttribute });
+    minWidth = input<number, unknown>(0, { transform: numberAttribute });
+    maxHeight = input<number, unknown>(0, { transform: numberAttribute });
+    maxWidth = input<number, unknown>(0, { transform: numberAttribute });
+    gravity = input<number, unknown>(0, { transform: numberAttribute });
 
-    constructor(root: ElementRef) {
-         this.root = root;
+    constructor(){
+        this.root = inject(ElementRef);
     }
 
-    getView() : any {
-        var view = this.root.nativeElement.querySelector("[view_id]");
-        var result, config;
+    getView(): any {
+        const view = this.root.nativeElement.querySelector('[view_id]');
+        let result, config;
         if (!view)
-            result = config = { view:"template", content: this.content || this.root.nativeElement };
+            result = config = { view:'template', content: this.content() || this.root.nativeElement } as webix.ui.baseviewConfig;
         else {
-            result =  webix.$$(view.getAttribute("view_id"));
+            result =  webix.$$(view.getAttribute('view_id'));
             config = result.config;
         }
 
-        if (this.width)
-            config.width = this.width*1;
-        if (this.height)
-            config.height = this.height*1;
-        if (this.minHeight)
-            config.minHeight = this.minHeight*1;
-        if (this.minWidth)
-            config.minWidth = this.minWidth*1;
-        if (this.maxHeight)
-            config.maxHeight = this.maxHeight*1;
-        if (this.maxWidth)
-            config.maxWidth = this.maxWidth*1;
-        if (this.gravity)
-            config.gravity = this.gravity*1;
+        const width = this.width();
+        if (width)
+            config.width = width;
+        const height = this.height();
+        if (height)
+            config.height = height;
+        const minHeight = this.minHeight();
+        if (minHeight)
+            config.minHeight = minHeight;
+        const minWidth = this.minWidth();
+        if (minWidth)
+            config.minWidth = minWidth;
+        const maxHeight = this.maxHeight();
+        if (maxHeight)
+            config.maxHeight = maxHeight;
+        const maxWidth = this.maxWidth();
+        if (maxWidth)
+            config.maxWidth = maxWidth;
+        const gravity = this.gravity();
+        if (gravity)
+            config.gravity = gravity;
 
         return result;
     }
